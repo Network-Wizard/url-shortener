@@ -1,4 +1,3 @@
-// app.js
 require('dotenv').config(); // This will load the .env file
 const express = require('express');
 const mongoose = require('mongoose');
@@ -9,13 +8,6 @@ const app = express();
 app.use(express.json());
 
 // MongoDB connection
-// mongoose.connect('mongodb://localhost/url-shortener', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// })
-//   .then(() => console.log("MongoDB connected"))
-//   .catch(err => console.log("MongoDB connection error:", err));
-
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -31,6 +23,11 @@ const urlSchema = new mongoose.Schema({
 });
 
 const Url = mongoose.model('Url', urlSchema);
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to the URL Shortener API');
+});
 
 // Route to create a short URL
 app.post('/shorten', async (req, res) => {
